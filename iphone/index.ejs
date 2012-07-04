@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Employee Directory</title>
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
+<% if (isProduction) { %>
+    <link href="/iphone/css/cache/<%=assetsCache.iphonecss||0%>/style.css" rel="stylesheet">
+<% } else { %>
+    <link href="/iphone/css/styles.css" rel="stylesheet">
+<% } %>
+</head>
+
+<body>
+
+<div id="content"></div>
+
+<!-- Scripts -->
+<% if (isProduction) { %>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>!window.jQuery && document.write('<script src="/iphone/lib/jquery-1.7.2.min.js"><\/script>')</script>
+    <script src="/iphone/js/cache/<%=assetsCache.iphonejs||0%>/client.js"></script>
+<% } else { %>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
+    <script>!window.jQuery && document.write('<script src="/iphone/lib/jquery-1.7.2.js"><\/script>')</script>
+    <script type="text/javascript" src="/iphone/lib/underscore.js"></script>
+    <script type="text/javascript" src="/iphone/lib/backbone.js"></script>
+    <script type="text/javascript" src="/iphone/js/app.js"></script>
+<% } %>
+
+</body>
+</html>

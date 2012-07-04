@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html class="ui-mobile-rendering">
+<head>
+	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<% if (isProduction) { %>
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+		<link href="/jquerymobile/css/cache/<%=assetsCache.jquerymobilecss||0%>/style.css" rel="stylesheet">
+	<% } else { %>
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.css" />
+		<link rel="stylesheet" href="/jquerymobile/css/styles.css"/>
+	<% } %>
+
+	<!-- The Scripts -->
+	<% if (isProduction) { %>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<script>!window.jQuery && document.write('<script src="/jquerymobile/lib/jquery-1.7.1.min.js"><\/script>')</script>
+		<script src="/jquerymobile/js/cache/<%=assetsCache.jquerymobilejs||0%>/client.js"></script>
+	<% } else { %>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+		<script>!window.jQuery && document.write('<script src="/jquerymobile/lib/jquery-1.7.1.js"><\/script>')</script>
+		<!-- jqm-config.js must be before jquery.mobile-1.1.0.js -->
+		<script src="/jquerymobile/js/jqm-config.js"></script>
+		<script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.js"></script>
+		<script src="/jquerymobile/lib/underscore.js"></script>
+		<script src="/jquerymobile/lib/backbone.js"></script>
+		<script src="/jquerymobile/js/models/employeemodel.js"></script>
+		<script src="/jquerymobile/js/views/employeelist.js"></script>
+		<script src="/jquerymobile/js/views/employeedetails.js"></script>
+		<script src="/jquerymobile/js/utils.js"></script>
+		<script src="/jquerymobile/js/main.js"></script>
+	<% } %>
+</head>
+
+<body></body>
+
+</html>
