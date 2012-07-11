@@ -4,19 +4,17 @@ var express = require('express');
 var RedisStore = require('connect-redis')(express);
 var sessionStore = new RedisStore(config.redis);
 var mongoose = require('mongoose');
+var fs = require('fs');
 
-var useragent = require('./lib/useragent.js');
 var officer = require('./lib/officer.js');
 
-var staticdir = '/static';	// common content
+var staticdir = '/static';
+// common content
 var webdir = '/web';
-var iphonedir = '/web';
-var mobiledir = '/web';
+var gamedir = '/game';
 
 // Connect to data
 mongoose.connect(config.mongodb);
-
-
 
 // Setup server
 var app = express.createServer();
@@ -24,65 +22,55 @@ app.listen(config.port);
 var io = require('./lib/chat.js')(app);
 var assetMiddleware = require('./lib/asset.js');
 app.configure(function() {
-	app.set('views', __dirname+'/views');
-	app.set('view options', {layout:false});
+	app.set('views', __dirname + '/views');
+	app.set('view options', {
+		layout : false
+	});
 	app.use(express.bodyParser());
 	app.use(express.cookieParser());
 	app.use(express.staticCache());
 	app.use(assetMiddleware);
-	app.use(express.session({ 'store':sessionStore, secret:config.sessionSecret }));
-	app.use(staticdir, 	express.static(__dirname+staticdir));
-	app.use(webdir, 	express.static(__dirname+webdir));
-	app.use(iphonedir,	express.static(__dirname+iphonedir));
-	app.use(mobiledir,	express.static(__dirname+mobiledir));
+	app.use(express.session({
+		'store' : sessionStore,
+		secret : config.sessionSecret
+	}));
+	app.use(staticdir, express.static(__dirname + staticdir));
+	app.use(webdir, express.static(__dirname + webdir));
+	app.use(gamedir, express.static(__dirname + gamedir));
 	app.use(app.router);
 });
 
 // Make assets available to index.ejs
 app.dynamicHelpers({
-	'assetsCache': function(req, res) {
+	'assetsCache' : function(req, res) {
 		return assetMiddleware.cacheHashes;
 	},
-	'isProduction': function(req, res) {
+	'isProduction' : function(req, res) {
 		return 'production' === config.environment;
 	}
 });
 
-//setup the errors
-app.error(function(err, req, res, next) {
-	if (err instanceof NotFound) {
-		res.render('404.jade', { locals:{
-			title:'404 - Not Found',
-			description:'',
-			author:'',
-			analyticssiteid:'XXXXXXX'
-		}, status:404 });
-	} else {
-		res.render('500.jade', { locals:{
-			title:'The Server Encountered an Error',
-			description:'',
-			author:'',
-			analyticssiteid:'XXXXXXX',
-			error:err
-		}, status:500 });
-	}
-});
-
-
-///////////////////////////////////////////
-//              Routes                   //
-///////////////////////////////////////////
-
-/////// ADD ALL YOUR ROUTES HERE  /////////
-// Index route - depends upon the useragent
 app.get('/', function(req, res) {
-	useragent(req, res);
-	var index = req.useragent.ios ? iphonedir : (req.useragent.mobile ? mobiledir : webdir);
+	var index = webdir;
 	console.log('index: ', index, config.environment);
-	res.render(__dirname+index+'/index.ejs')
+	res.render(__dirname + index + '/index.ejs');
 });
 
-// API routes return JSON
+app.get('/game/:simulator?', function(req, res) {
+	var layout = (__dirname + '/game/layouts/' + req.params.simulator + '.ejs');
+
+	console.log('index: ', layout, config.environment);
+	fs.exists(layout, function(tf) {
+		if (tf) {
+			res.render(layout);
+		} else {
+			res.render(__dirname + '/game/layouts/standard.ejs');
+		}
+	})
+});
+
+//// API routes return JSON ////
+// Officers
 app.get('/api/officers', officer.getOfficers);
 app.get('/api/officers/:id', officer.getOfficer);
 app.get('/api/officers/login/:id', officer.login);
@@ -95,6 +83,32 @@ app.get('/500', function(req, res) {
 //The 404 Route (ALWAYS Keep this as the last route)
 app.get('/*', function(req, res) {
 	throw new NotFound();
+});
+
+//setup the errors
+app.error(function(err, req, res, next) {
+	if ( err instanceof NotFound) {
+		res.render('404.jade', {
+			locals : {
+				title : '404 - Not Found',
+				description : '',
+				author : '',
+				analyticssiteid : 'XXXXXXX'
+			},
+			status : 404
+		});
+	} else {
+		res.render('500.jade', {
+			locals : {
+				title : 'The Server Encountered an Error',
+				description : '',
+				author : '',
+				analyticssiteid : 'XXXXXXX',
+				error : err
+			},
+			status : 500
+		});
+	}
 });
 
 function NotFound(msg) {

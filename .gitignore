@@ -9,3 +9,4 @@ rms.iws
 .idea/
 node_modules/
 npm-debug.log
+.nide

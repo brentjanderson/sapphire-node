@@ -13,6 +13,11 @@
 	<![endif]-->
 
 	<!-- Le styles -->
+	<style>
+		body {
+			padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+		}
+	</style>
 	<% if (isProduction) { %>
 		<link href="/web/css/cache/<%=assetsCache.webcss||0%>/style.css" rel="stylesheet">
 	<% } else { %>
@@ -27,9 +32,7 @@
 </head>
 
 <body>
-
-<div class="header"></div>
-
+<h1>Standard</h1>
 <div class="container">
 	<div class="row">
 		<div id="content" class="span12"></div>
@@ -50,10 +53,13 @@
 	<script src="/web/lib/backbone.js"></script>
 	<script src="/web/lib/bootstrap-dropdown.js"></script>
 	<script src="/web/js/utils.js"></script>
-	<script src="/web/js/views/home.js"></script>
+	<script src="/web/js/models/officermodel.js"></script>
+	<script src="/web/js/views/intro.js"></script>
 	<script src="/web/js/views/header.js"></script>
-	<script src="/web/js/views/contact.js"></script>
-	<script src="/web/js/views/news.js"></script>
+	<script src="/web/js/views/login.js"></script>
+	<script src="/web/js/views/officerlog.js"></script>
+	<script src="/web/js/views/powermanager.js"></script>
+	<script src="/web/js/chat.js"></script>
 	<script src="/web/js/main.js"></script>
 <% } %>
 

@@ -2,10 +2,11 @@ window.HeaderView = Backbone.View.extend({
 
 	initialize:function () {
 		this.template = _.template(tpl.get('header'));
+		window.Officer.on("change:loggedIn", this.render, this);
 	},
 
 	render:function (eventName) {
-		$(this.el).html(this.template());
+		$(this.el).html(this.template({ officer:window.Officer }));
 		return this;
 	},
 

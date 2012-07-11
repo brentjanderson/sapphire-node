@@ -4,7 +4,6 @@ window.LoginView = Backbone.View.extend({
 		console.log('Initializing Login View');
 		this.template = _.template(tpl.get('login'));
 		window.Officer.on("change:loggedIn", this.render, this);
-		
 	},
 
 	events:{
@@ -18,7 +17,7 @@ window.LoginView = Backbone.View.extend({
 	},
 
 	login:function () {
-	    if ($('#loginname').val()=='') {
+	if ($('#loginname').val()=='') {
             alert("Please enter your name");
         } else {
             window.Officer.set("name", $('#loginname').val());
@@ -27,7 +26,7 @@ window.LoginView = Backbone.View.extend({
 	},
 	
 	logout:function () {
-        window.Officer.set("loggedIn", false);
-        window.Officer.set("name",'');
+            window.Officer.set("loggedIn", false);
+            window.Officer.set("name",'');
 	}
 });
