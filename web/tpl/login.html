@@ -1,0 +1,11 @@
+<div class="row">
+    <% if(!officer.get('loggedIn')) { %>
+    <h1>Login</h1>
+    <label>Please enter your name: <input id="loginname" type="text" placeholder="Your name here"/></label>
+    <button id="loginbtn" class="btn btn-primary btn-large">Login</button>
+    <% } else { %>
+    <h1>Logout</h1>
+    <p>Logged In: <% print(officer.get('name')) %></p>
+    <button id="logoutbtn" class="btn btn-large">Logout</button>
+    <% } %>
+</div>

@@ -6,7 +6,7 @@ var sessionStore = new RedisStore(config.redis);
 var mongoose = require('mongoose');
 
 var useragent = require('./lib/useragent.js');
-var employee = require('./lib/employee.js');
+var officer = require('./lib/officer.js');
 
 var staticdir = '/static';	// common content
 var webdir = '/web';
@@ -16,8 +16,7 @@ var mobiledir = '/web';
 // Connect to data
 mongoose.connect(config.mongodb);
 
-// Init seed data - this may not be needed in your application
-employee.seed();
+
 
 // Setup server
 var app = express.createServer();
@@ -26,7 +25,7 @@ var io = require('./lib/chat.js')(app);
 var assetMiddleware = require('./lib/asset.js');
 app.configure(function() {
 	app.set('views', __dirname+'/views');
-	app.set('view options', { layout:false });
+	app.set('view options', {layout:false});
 	app.use(express.bodyParser());
 	app.use(express.cookieParser());
 	app.use(express.staticCache());
@@ -84,10 +83,9 @@ app.get('/', function(req, res) {
 });
 
 // API routes return JSON
-app.get('/api/employees', employee.getEmployees);
-app.get('/api/employees/:id', employee.getEmployee);
-app.get('/api/employees/:id/reports', employee.getReports);
-app.get('/api/employees/search/:query', employee.findByName);
+app.get('/api/officers', officer.getOfficers);
+app.get('/api/officers/:id', officer.getOfficer);
+app.get('/api/officers/login/:id', officer.login);
 
 //A Route for Creating a 500 Error (Useful to keep around)
 app.get('/500', function(req, res) {

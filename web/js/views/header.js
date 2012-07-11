@@ -2,28 +2,22 @@ window.HeaderView = Backbone.View.extend({
 
 	initialize:function () {
 		this.template = _.template(tpl.get('header'));
-		this.searchResults = new EmployeeCollection();
-		this.searchresultsView = new EmployeeListView({model:this.searchResults, className:'dropdown-menu'});
+		window.Officer.on("change:loggedIn", this.render, this);
 	},
 
 	render:function (eventName) {
-		$(this.el).html(this.template());
-		$('.navbar-search', this.el).append(this.searchresultsView.render().el);
+		$(this.el).html(this.template({ officer:window.Officer }));
 		return this;
 	},
 
 	events:{
-		"keyup .search-query":"search"
+	    "click ul.nav a": "updateMenu"
 	},
-
-	search:function (event) {
-//        var key = event.target.value;
-		var key = $('#searchText').val();
-		console.log('search ' + key);
-		this.searchResults.findByName(key);
-		setTimeout(function () {
-			$('#searchForm').addClass('open');
-		});
+	
+	updateMenu: function(event) {
+	    var items = $(event.target).parent().siblings();
+	    items.removeClass('active');
+	    $(event.target).parent().addClass('active');
 	}
 
 });

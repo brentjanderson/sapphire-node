@@ -1,12 +1,12 @@
 module.exports = {
-	sessionSecret: 'your secret',
+	sessionSecret: 'ab8fe53d61013c1c240d898f0811ca6e',
 	port: 8080,
 	uri: 'http://localhost:8080', // Without trailing /
     redis: {
         host: 'localhost',
         port: 6379
     },
-    mongodb: 'mongodb://localhost/my_database',
+    mongodb: 'mongodb://localhost/sapphire',
     socketio: {
         level: 2
     },
