@@ -10,7 +10,7 @@ var AppRouter = Backbone.Router.extend({
 
 	initialize : function() {
 		this.headerView = new HeaderView();
-		$('.header').html(this.headerView.render().el);
+		$('#header').html(this.headerView.render().el);
 	},
 
 	intro : function() {

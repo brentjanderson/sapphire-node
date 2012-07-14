@@ -6,7 +6,9 @@ var sessionStore = new RedisStore(config.redis);
 var mongoose = require('mongoose');
 var fs = require('fs');
 
-var officer = require('./lib/officer.js');
+//var officer = require('./lib/officer.js');
+
+var models = require('./lib/models/models.js');
 
 var staticdir = '/static';
 // common content
@@ -66,14 +68,20 @@ app.get('/game/:simulator?', function(req, res) {
 		} else {
 			res.render(__dirname + '/game/layouts/standard.ejs');
 		}
-	})
+	});
 });
 
+
+
 //// API routes return JSON ////
+//// @todo I really need to get this broken into its own module
 // Officers
-app.get('/api/officers', officer.getOfficers);
-app.get('/api/officers/:id', officer.getOfficer);
-app.get('/api/officers/login/:id', officer.login);
+app.get('/api/officers', models.Officer.getOfficers);
+app.get('/api/officers/:id', models.Officer.getOfficer);
+app.get('/api/officers/login/:id', models.Officer.login);
+
+// Verify Mission Code
+app.get('/api/mission/verify/:code?', models.Mission.verify); 
 
 //A Route for Creating a 500 Error (Useful to keep around)
 app.get('/500', function(req, res) {
@@ -116,5 +124,4 @@ function NotFound(msg) {
 	Error.call(this, msg);
 	Error.captureStackTrace(this, arguments.callee);
 }
-
 console.log('Listening on http://0.0.0.0:' + config.port);
