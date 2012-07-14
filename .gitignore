@@ -10,3 +10,4 @@ rms.iws
 node_modules/
 npm-debug.log
 .nide
+dump.rdb
