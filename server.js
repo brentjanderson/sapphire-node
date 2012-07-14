@@ -71,17 +71,19 @@ app.get('/game/:simulator?', function(req, res) {
 	});
 });
 
-
-
 //// API routes return JSON ////
 //// @todo I really need to get this broken into its own module
+// Simulators
+app.get('/api/simulators', models.Simulator.getSimulators);
+app.get('/api/simulators/:id', models.Simulator.getSimulator);
+
 // Officers
 app.get('/api/officers', models.Officer.getOfficers);
 app.get('/api/officers/:id', models.Officer.getOfficer);
 app.get('/api/officers/login/:id', models.Officer.login);
 
 // Verify Mission Code
-app.get('/api/mission/verify/:code?', models.Mission.verify); 
+app.get('/api/mission/verify/:code?', models.Mission.verify);
 
 //A Route for Creating a 500 Error (Useful to keep around)
 app.get('/500', function(req, res) {
@@ -124,4 +126,5 @@ function NotFound(msg) {
 	Error.call(this, msg);
 	Error.captureStackTrace(this, arguments.callee);
 }
+
 console.log('Listening on http://0.0.0.0:' + config.port);
