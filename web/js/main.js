@@ -4,7 +4,8 @@ var AppRouter = Backbone.Router.extend({
 	routes : {
 		"" : "home",
 		"news" : "news",
-		"contact" : "contact"
+		"contact" : "contact",
+		"admin" : "admin"
 	},
 
 	initialize : function() {
@@ -19,7 +20,7 @@ var AppRouter = Backbone.Router.extend({
 		}
 		$('#content').html(this.homeView.el);
 	},
-	
+
 	news : function() {
 		if (!this.newsView) {
 			this.newsView = new NewsView();
@@ -27,7 +28,7 @@ var AppRouter = Backbone.Router.extend({
 		}
 		$('#content').html(this.newsView.el);
 	},
-	
+
 	contact : function() {
 		if (!this.contactView) {
 			this.contactView = new ContactView();
@@ -35,10 +36,18 @@ var AppRouter = Backbone.Router.extend({
 		}
 		$('#content').html(this.contactView.el);
 	},
+
+	admin : function() {
+		if (!this.adminView) {
+			this.adminView = new AdminView();
+			this.adminView.render();
+		}
+		$('#content').html(this.adminView.el);
+	}
 });
 
 Backbone.Model.prototype.idAttribute = '_id';
-tpl.loadTemplates(['home', 'news', 'contact', 'header'], function() {
+tpl.loadTemplates(['home', 'news', 'contact', 'header', 'admin'], function() {
 	app = new AppRouter();
 	Backbone.history.start();
 });
